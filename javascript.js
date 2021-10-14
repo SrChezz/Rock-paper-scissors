@@ -1,3 +1,55 @@
+let buttons = document.querySelectorAll(".playButton");
+let result = document.querySelector(".result")
+let playAgain = document.getElementById("playAgain")
+
+buttons.forEach(button => {
+    button.addEventListener("click", function (event) {
+
+        if (playAgain.classList.contains("hide")) {                 
+
+        let playerSelection = button.getAttribute("data-play");
+        let roundResult = playRound(playerSelection, computerPlay ());
+        let score
+        let message
+
+        if (roundResult.winner == "computer") {
+            score = document.querySelector(`.scores span[data-points="computer"]`)
+            message = "You lost!"
+            score.innerText = parseInt(score.innerText) + 1;
+        } else if (roundResult.winner == "player"){
+            score = document.querySelector(`.scores span[data-points="player"`)
+            message = "You won!"
+            score.innerText = parseInt(score.innerText) + 1;
+        } else {
+            message = "It's a tie!"
+        }
+          
+        if (score && score.innerText == 5) {
+            result.innerText = `The winner is the ${roundResult.winner}`
+
+            
+            playAgain.classList.remove("hide")
+            return;
+        }
+
+        result.innerText = `${message} Computer played ${roundResult.computer} and you played ${roundResult.player}.`
+
+        }
+        
+    })
+});
+
+playAgain.addEventListener("click", function (event) {
+    let scores = document.querySelectorAll(".scores span")
+
+    scores.forEach(score => {
+        score.innerText = 0
+    })
+
+    this.classList.add("hide")
+    result.innerText = ""
+})
+
 function computerPlay () {
     let computerMove = Math.floor(Math.random() * 3) + 1;
     let computerDecide
@@ -80,4 +132,4 @@ function game() {
     return scores
 }
 
-console.log(game())
+// console.log(game())
